@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedSAM2 — Interactive Medical Image Segmentation</title>
+<title>MedSAM2 — Educational Segmentation UI Simulation</title>
 <style>
 :root {
   --bg: #060912;
@@ -130,18 +130,20 @@ header {
       <div class="logo-icon">🔬</div>
       <div>
         <h1>MedSAM2</h1>
-        <p>Interactive Medical Image Segmentation · Segment Anything Model 2</p>
+        <p>Educational Segmentation UI Simulation · No SAM2 Inference</p>
       </div>
     </div>
     <div class="badges">
-      <span class="badge">SAM2 Architecture</span>
-      <span class="badge">Click-to-Segment</span>
-      <span class="badge">Dice & IoU Scoring</span>
-      <span class="badge">Multi-Organ</span>
+      <span class="badge">SAM2 Concept</span>
+      <span class="badge">Click-to-Simulate</span>
+      <span class="badge">Simulated Dice & IoU</span>
+      <span class="badge">Example Organ Labels</span>
       <span class="badge">Zero Setup</span>
     </div>
   </div>
 </header>
+
+<div role="note" style="max-width:1400px;margin:1rem auto;padding:1rem 2rem;border:1px solid var(--border);border-radius:12px;color:var(--muted2);background:var(--surface);"><strong style="color:#c4b5fd;">Educational UI simulation.</strong> No SAM2 model runs here. Masks are synthetic shapes; Dice, IoU, area and displayed latency are randomly generated examples, not model predictions or measured segmentation accuracy.</div>
 
 <div class="main">
 
@@ -165,30 +167,30 @@ header {
         </div>
 
         <div style="margin-top:0.75rem;">
-          <div style="font-size:0.72rem;color:var(--muted2);margin-bottom:6px;">Segmentation mode:</div>
+          <div style="font-size:0.72rem;color:var(--muted2);margin-bottom:6px;">Simulation mode:</div>
           <div class="mode-row" id="mode-row"></div>
         </div>
 
         <button class="segment-btn" id="seg-btn" onclick="runSegmentation()">
-          <span>✂️</span> Segment Image
+          <span>✂️</span> Run Simulation
         </button>
         <button class="clear-btn" onclick="clearPoints()">Clear prompt points</button>
-        <div class="hint">💡 Click on the image to place prompt points, then click Segment</div>
+        <div class="hint">💡 Place prompt points, then run the mask simulation</div>
 
         <div class="loading" id="loading">
           <div class="spinner"></div>
-          <span id="loading-text" style="font-size:0.82rem;color:var(--muted2);">Encoding image patches...</span>
+          <span id="loading-text" style="font-size:0.82rem;color:var(--muted2);">Preparing simulation...</span>
         </div>
       </div>
     </div>
 
     <!-- CANVAS -->
     <div class="panel">
-      <div class="panel-hdr"><div class="dot cyan"></div> Segmentation View</div>
+      <div class="panel-hdr"><div class="dot cyan"></div> Simulated Segmentation View</div>
       <div class="panel-body">
         <div style="display:flex;gap:8px;margin-bottom:0.75rem;flex-wrap:wrap;" id="view-tabs">
-          <button class="mode-btn active" onclick="setView('seg', this)">Segmentation</button>
-          <button class="mode-btn" onclick="setView('heatmap', this)">Attention Heatmap</button>
+          <button class="mode-btn active" onclick="setView('seg', this)">Synthetic Masks</button>
+          <button class="mode-btn" onclick="setView('heatmap', this)">Illustrative Heatmap</button>
           <button class="mode-btn" onclick="setView('overlay', this)">Overlay</button>
           <button class="mode-btn" onclick="setView('original', this)">Original</button>
         </div>
@@ -207,13 +209,13 @@ header {
   <div class="sidebar">
 
     <div class="panel">
-      <div class="panel-hdr"><div class="dot green"></div> Segmentation Metrics</div>
+      <div class="panel-hdr"><div class="dot green"></div> Simulated Display Values</div>
       <div class="panel-body">
         <div class="metric-grid" id="metrics-grid">
-          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Dice Score</div></div>
-          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">IoU Score</div></div>
-          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Latency</div></div>
-          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Mask Area</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Simulated Dice</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Simulated IoU</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Simulated Latency</div></div>
+          <div class="metric"><div class="metric-val" style="color:var(--muted)">--</div><div class="metric-lbl">Sample Mask Area</div></div>
         </div>
       </div>
     </div>
@@ -228,14 +230,14 @@ header {
     </div>
 
     <div class="panel">
-      <div class="panel-hdr"><div class="dot"></div> Per-Organ Performance</div>
+      <div class="panel-hdr"><div class="dot"></div> Simulated Organ Scores</div>
       <div class="panel-body" id="organ-panel">
-        <div class="empty-state"><div class="empty-icon">🫁</div>Run segmentation to see organ scores</div>
+        <div class="empty-state"><div class="empty-icon">🫁</div>Run the simulation to see random sample scores</div>
       </div>
     </div>
 
     <div class="panel">
-      <div class="panel-hdr"><div class="dot cyan"></div> SAM2 Pipeline</div>
+      <div class="panel-hdr"><div class="dot cyan"></div> Conceptual SAM2 Pipeline (Not Executed)</div>
       <div class="panel-body">
         <div class="pipe-step">
           <div class="pipe-num" style="background:rgba(139,92,246,0.2);color:#c4b5fd;">1</div>
@@ -263,7 +265,7 @@ header {
     <div class="panel">
       <div class="panel-hdr"><div class="dot"></div> History</div>
       <div class="panel-body" id="history-panel">
-        <div class="empty-state"><div class="empty-icon">📋</div>No segmentations yet</div>
+        <div class="empty-state"><div class="empty-icon">📋</div>No simulations yet</div>
       </div>
     </div>
 
@@ -281,8 +283,8 @@ const SAMPLES = [
 ];
 
 const MODES = [
-  { id: 'organ', label: 'Organ Segmentation' },
-  { id: 'lesion', label: 'Lesion Detection' },
+  { id: 'organ', label: 'Organ Mask Simulation' },
+  { id: 'lesion', label: 'Lesion Mask Simulation' },
   { id: 'tumor', label: 'Tumor Delineation' },
 ];
 
@@ -466,7 +468,7 @@ async function runSegmentation() {
   btn.disabled = true;
   document.getElementById('loading').classList.add('visible');
 
-  const steps = ['Encoding image patches (Hiera backbone)...','Generating sparse prompt embeddings...','Running two-way transformer attention...','Decoding multi-scale mask features...','Computing IoU and stability scores...','Generating segmentation mask...'];
+  const steps = ['Preparing an illustrative image view...','Reading prompt-point positions for the simulation...','Preparing a simulated attention-style display...','Drawing synthetic mask shapes...','Generating random sample Dice and IoU values...','Preparing simulated output...'];
   let step = 0;
   const interval = setInterval(() => { step=(step+1)%steps.length; document.getElementById('loading-text').textContent=steps[step]; }, 400);
 
@@ -486,10 +488,10 @@ async function runSegmentation() {
 
   // Metrics
   document.getElementById('metrics-grid').innerHTML = [
-    { val: dice.toFixed(3), lbl: 'Dice Score', color: dice>0.85?'#10b981':dice>0.7?'#f59e0b':'#ef4444' },
-    { val: iou.toFixed(3), lbl: 'IoU Score', color: iou>0.75?'#10b981':'#f59e0b' },
-    { val: latency+'ms', lbl: 'Latency', color: '#8b5cf6' },
-    { val: area+'px²', lbl: 'Mask Area', color: '#06b6d4' },
+    { val: dice.toFixed(3), lbl: 'Simulated Dice', color: dice>0.85?'#10b981':dice>0.7?'#f59e0b':'#ef4444' },
+    { val: iou.toFixed(3), lbl: 'Simulated IoU', color: iou>0.75?'#10b981':'#f59e0b' },
+    { val: latency+'ms', lbl: 'Simulated Latency', color: '#8b5cf6' },
+    { val: area+'px²', lbl: 'Sample Mask Area', color: '#06b6d4' },
   ].map(m => `<div class="metric"><div class="metric-val" style="color:${m.color}">${m.val}</div><div class="metric-lbl">${m.lbl}</div></div>`).join('');
 
   // Organ scores
@@ -507,7 +509,7 @@ async function runSegmentation() {
     <div class="hist-item">
       <div>${h.icon} ${h.name}</div>
       <div style="color:var(--muted2);font-size:0.7rem;margin-top:2px;display:flex;gap:8px;">
-        <span style="color:${h.dice>0.85?'#10b981':'#f59e0b'}">${h.dice.toFixed(3)} Dice</span>
+        <span style="color:${h.dice>0.85?'#10b981':'#f59e0b'}">${h.dice.toFixed(3)} simulated Dice</span>
         <span>${h.points} points</span>
         <span>${h.time}</span>
       </div>
@@ -556,7 +558,7 @@ function drawSegmentation(dice) {
     ctx.fillStyle = 'white';
     ctx.font = 'bold 10px Segoe UI';
     ctx.textAlign = 'left';
-    ctx.fillText(`Dice: ${dice.toFixed(3)}`, pt.x - rx + 4, pt.y - ry - 7);
+    ctx.fillText(`Simulated Dice: ${dice.toFixed(3)}`, pt.x - rx + 4, pt.y - ry - 7);
 
     // Prompt point
     ctx.beginPath(); ctx.arc(pt.x, pt.y, 8, 0, Math.PI*2);
@@ -603,7 +605,7 @@ function drawHeatmap() {
     }
   });
   ctx.font='bold 13px Segoe UI'; ctx.fillStyle='white'; ctx.textAlign='left';
-  ctx.fillText('SAM2 Attention Heatmap', 10, 20);
+  ctx.fillText('Illustrative Heatmap (Simulated)', 10, 20);
 }
 
 function drawOverlay() {
@@ -615,7 +617,7 @@ function drawOverlay() {
   if (currentSample) generateMedicalImage(ctx, w, h, currentSample);
   if (lastResult) drawSegmentation(lastResult.dice);
   ctx.font='bold 13px Segoe UI'; ctx.fillStyle='white'; ctx.textAlign='left';
-  ctx.fillText('Segmentation Overlay', 10, 20);
+  ctx.fillText('Synthetic Mask Overlay', 10, 20);
 }
 
 function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
