@@ -1,10 +1,12 @@
-# 🔬 MedSAM2 — Interactive Medical Image Segmentation
+# 🔬 MedSAM2 — Educational Segmentation UI Simulation
 
 [![Live Demo](https://img.shields.io/badge/🔗-Live_Demo-8b5cf6)](https://shadman19.github.io/medsam2/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![SAM2](https://img.shields.io/badge/Meta-SAM2-blue)](https://github.com/facebookresearch/sam2)
+[![SAM2 Concept](https://img.shields.io/badge/Inspired_by-SAM2-blue)](https://github.com/facebookresearch/sam2)
 
-> Interactive medical image segmentation using Meta's Segment Anything Model 2 — click to place prompt points, get instant segmentation masks with Dice and IoU scoring.
+> A browser-only educational simulation of a prompt-based medical-image segmentation interface. It does not load or run Meta's SAM2 model. The current JavaScript draws synthetic masks and generates sample Dice, IoU, area and latency values with random numbers.
+>
+> **Implementation scope:** masks and displayed scores are illustrative UI output, not model predictions, measured segmentation accuracy or clinical results. Some legacy UI labels use SAM2 terminology; this README states the actual implementation.
 
 **[Try the Live Demo →](https://shadman19.github.io/medsam2/)**
 
@@ -12,16 +14,18 @@
 
 ## What This Does
 
-Upload any medical image. Click anywhere to place prompt points. Get instant segmentation masks with:
+Upload an image and place prompt points to explore the interface:
 
-- Dice Similarity Coefficient scoring
-- IoU (Intersection over Union) scoring
-- Per-organ performance breakdown
-- SAM2 attention heatmap visualization
-- Multi-point prompting support
-- Real-time latency measurement
+- Synthetic mask overlays drawn on canvas
+- Random sample Dice and IoU display values; no ground-truth comparison is computed
+- Illustrative organ labels and area values
+- Simulated heatmap visualization; no SAM2 attention is extracted
+- Multi-point prompting controls
+- Random sample latency display; no model inference is timed
 
-## Supported Modalities
+## Example Modality Labels
+
+The labels below populate the simulation; they do not establish trained or validated model support.
 
 | Modality | Organs/Structures |
 |----------|-------------------|
@@ -30,7 +34,9 @@ Upload any medical image. Click anywhere to place prompt points. Get instant seg
 | 🩻 Abdominal CT | Liver, Kidney-L, Kidney-R, Spleen |
 | 👁️ Fundus | Optic Disc, Macula, Vessels, Lesion |
 
-## SAM2 Pipeline
+## Conceptual SAM2 Pipeline
+
+This diagram is educational background, not the execution path of the browser simulation. No encoder, prompt encoder or mask decoder is run by the current JavaScript.
 
 ```
 Medical Image
